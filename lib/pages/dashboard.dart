@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+// import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:esoger/ui/theme/colors.dart';
 import 'package:esoger/ui/screens/home/index.dart';
 import 'package:esoger/ui/screens/school/index.dart';
@@ -62,7 +63,8 @@ class _HomePageState extends State<HomePage> {
         screens: _buildScreens(),
         stateManagement: true,
         items: _navBarsItems(),
-        hideNavigationBarWhenKeyboardShows: true,
+        hideNavigationBarWhenKeyboardAppears: true,
+        // hideNavigationBarWhenKeyboardShows: true,
         navBarStyle: NavBarStyle
             .style1, // Choose the nav bar style with appropriate animation.
       ),

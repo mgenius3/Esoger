@@ -97,30 +97,38 @@ class _PaymentDetailsScreenState extends State<PaymentDetailsScreen> {
               ElevatedButton.icon(
                 onPressed: () => _sharePdfReceipt(),
                 icon: const Icon(Icons.picture_as_pdf, color: Colors.black),
-                label: const Text('Get PDF Receipt',
-                    style: TextStyle(color: Colors.black)),
+                label: const Text(
+                  'Get PDF Receipt',
+                  style: TextStyle(color: Colors.black),
+                ),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.white,
+                  backgroundColor: Colors.white, // Use backgroundColor instead of primary
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
                     side: const BorderSide(color: Colors.black),
                   ),
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 24.0, vertical: 12.0),
+                    horizontal: 24.0,
+                    vertical: 12.0,
+                  ),
                 ),
               ),
               const SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () {},
-                child: const Text('Back to Homepage',
-                    style: TextStyle(color: Colors.white)),
+                child: const Text(
+                  'Back to Homepage',
+                  style: TextStyle(color: Colors.white),
+                ),
                 style: ElevatedButton.styleFrom(
-                  primary: const Color(0xFFFF7043),
+                  backgroundColor: const Color(0xFFFF7043), // Use backgroundColor instead of primary
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 24.0, vertical: 12.0),
+                    horizontal: 24.0,
+                    vertical: 12.0,
+                  ),
                 ),
               ),
             ],
@@ -146,7 +154,7 @@ class _PaymentDetailsScreenState extends State<PaymentDetailsScreen> {
     print(file);
     await file.writeAsBytes(await pdf.save());
 
-    Share.shareFiles([file.path], text: 'Here is your receipt.');
+    Share.shareXFiles([file as XFile], text: 'Here is your receipt.');
   }
 
   Widget _buildDetailRow(String title, String value) {

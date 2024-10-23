@@ -3,6 +3,7 @@ import 'package:esoger/ui/theme/colors.dart';
 import 'package:go_router/go_router.dart';
 
 Widget buttonButton({required BuildContext context}) {
+  double screenWidth = MediaQuery.of(context).size.width;
   return Container(
       margin: const EdgeInsets.symmetric(horizontal: 50),
       height: 50,
@@ -15,7 +16,8 @@ Widget buttonButton({required BuildContext context}) {
               context.push('/onboard2');
             },
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+              width: screenWidth * 0.3,
+              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
               decoration: BoxDecoration(
                   color: primaryColor, borderRadius: BorderRadius.circular(12)),
               child: const Text(
@@ -23,7 +25,7 @@ Widget buttonButton({required BuildContext context}) {
                 style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w500,
-                    fontSize: 16),
+                    fontSize: 10),
               ),
             ),
           )

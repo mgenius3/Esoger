@@ -2,6 +2,8 @@ import 'package:esoger/ui/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:esoger/ui/widget/button/primarybutton.dart';
 import 'package:go_router/go_router.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:esoger/services/api/api_service.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -12,9 +14,13 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   bool _isPasswordVisible = false;
+  bool _isLoading = false;
   final _fullnameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
   final _passwordTextController = TextEditingController();
+  final _formkey = GlobalKey<FormState>();
+  ApiService apiService = ApiService();
 
   bool _isChecked = false;
 
@@ -22,6 +28,42 @@ class _SignUpState extends State<SignUp> {
     setState(() {
       _isChecked = value ?? false;
     });
+  }
+
+  bool validateForm() {
+    return _formkey.currentState!.validate();
+  }
+
+  void _submit() async {
+    setState(() {
+      _isLoading = true;
+    });
+    if (validateForm()) {
+      try {
+        //payload: user_id, fullname, email, username, phone, plan, status, is_admin, password, date_joined
+        Map<String, dynamic> userDetails = {
+          "first_name": _fullnameController.text.trim(),
+          "phone": _phoneController.text.trim(),
+          "email": _emailController.text.trim(),
+          "password": _passwordTextController.text.trim(),
+        };
+
+        Map responseData = await apiService.post("register", userDetails);
+
+        if (responseData["error"] != null) {
+          // throw CustomError('${responseData['error']}');
+        } else {
+          // toastSuccess(context, message: responseData['data']['message']);
+        }
+        context.push('/signin');
+      } catch (err) {
+        Fluttertoast.showToast(msg: err.toString());
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   @override
@@ -47,6 +89,18 @@ class _SignUpState extends State<SignUp> {
                     fontFamily: "Work Sans"),
               ),
               const SizedBox(height: 25.0),
+              TextFormField(
+                decoration: const InputDecoration(
+                  hintText: "benmos16@gmail.com",
+                  labelText: 'Email',
+                  border:
+                      OutlineInputBorder(), // Set the border to a rectangular shape
+                ),
+                onChanged: (text) => setState(() {
+                  _phoneController.text = text;
+                }),
+              ),
+              const SizedBox(height: 20.0),
               TextFormField(
                 decoration: const InputDecoration(
                   hintText: "Moses Benjamin",
@@ -101,7 +155,7 @@ class _SignUpState extends State<SignUp> {
                     children: [
                       Checkbox(value: _isChecked, onChanged: _toggleCheckbox),
                       const Text(
-                        "Remeber Password",
+                        "Remember Password",
                         style: TextStyle(fontFamily: "Work Sans"),
                       )
                     ],
@@ -119,6 +173,26 @@ class _SignUpState extends State<SignUp> {
                       TextStyle(color: Colors.white, fontFamily: "Work Sans"),
                 ),
               ),
+              SizedBox(
+                  child: CustomPrimaryButton(
+                onPressed: _isLoading ? () {} : () => _submit(),
+                color: primaryColor,
+                child: _isLoading
+                    ? const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            Colors.white,
+                          ),
+                        ),
+                      )
+                    : const Text(
+                        "Submit",
+                        style: TextStyle(color: Colors.white),
+                      ),
+              )),
+
               const SizedBox(height: 20.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -137,25 +211,25 @@ class _SignUpState extends State<SignUp> {
                   )
                 ],
               ),
-              const SizedBox(height: 30.0),
-              CustomPrimaryButton(
-                  onPressed: () {},
-                  color: Colors.white,
-                  border: true,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'public/images/Google.png',
-                        width: 40,
-                      ),
-                      const Text(
-                        "Sign Up with Google",
-                        style: TextStyle(
-                            color: primaryColor, fontFamily: "Work Sans"),
-                      ),
-                    ],
-                  )),
+              // const SizedBox(height: 30.0),
+              // CustomPrimaryButton(
+              //     onPressed: () {},
+              //     color: Colors.white,
+              //     border: true,
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.center,
+              //       children: [
+              //         Image.asset(
+              //           'public/images/Google.png',
+              //           width: 40,
+              //         ),
+              //         const Text(
+              //           "Sign Up with Google",
+              //           style: TextStyle(
+              //               color: primaryColor, fontFamily: "Work Sans"),
+              //         ),
+              //       ],
+              //     )),
               Center(
                 child: TextButton(
                     onPressed: () {
