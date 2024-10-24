@@ -38,6 +38,7 @@ class ApiService {
       final url = Uri.parse('${ApiConfig.baseURL}$endpoint');
       final response = await http.get(url, headers: headers);
 
+      print(response.body);
       if (response.statusCode >= 200 && response.statusCode < 400) {
         return {"error": null, "data": json.decode(response.body)};
       } else {
@@ -61,13 +62,21 @@ class ApiService {
       final url = Uri.parse('${ApiConfig.baseURL}$endpoint');
       final response =
           await http.post(url, headers: headers, body: json.encode(body));
-
+      print(response.body);
       if (response.statusCode >= 200 && response.statusCode < 400) {
         return {"error": null, "data": json.decode(response.body)};
       } else {
-        return {"error": json.decode(response.body)['message'], "data": null};
+        String? specialError = extractErrorMessages(json.decode(response.body));
+        print(specialError);
+        if (specialError != null) {
+          throw Exception(specialError);
+        } else {
+          return {"error": json.decode(response.body)['message'], "data": null};
+        }
       }
     } catch (err) {
+      print(78);
+      print(err.toString());
       throw CustomError('$err');
     }
   }

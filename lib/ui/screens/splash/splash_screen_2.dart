@@ -3,6 +3,7 @@ import 'dart:async';
 import "package:esoger/ui/theme/colors.dart";
 import 'package:go_router/go_router.dart';
 import 'package:esoger/ui/theme/index.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Splash2 extends StatefulWidget {
   const Splash2({Key? key}) : super(key: key);
@@ -11,9 +12,17 @@ class Splash2 extends StatefulWidget {
 }
 
 class _Splash2State extends State<Splash2> {
-  startTimer() {
+  final storage = FlutterSecureStorage();
+
+  startTimer() async {
+    String? user_id = await storage.read(key: 'user_id');
+
     Timer(const Duration(seconds: 3), () async {
-      context.go('/onboard');
+      if (user_id != null) {
+        context.push('/home');
+      } else {
+        context.go('/onboard');
+      }
     });
   }
 
