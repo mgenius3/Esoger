@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-Widget myPlanPackages() {
+Widget myPlanPackages(String plan) {
   final Map data = {
     "name": "gold package",
     "note": "best deal",
@@ -14,7 +14,6 @@ Widget myPlanPackages() {
     margin: const EdgeInsets.only(
         right: 10, top: 10), // Margin around each container
     padding: const EdgeInsets.all(10), // Margin around each container
-
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
       color: data['no'] == 1
@@ -42,7 +41,7 @@ Widget myPlanPackages() {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  data['name'].toString().toUpperCase(),
+                  plan.toString().toUpperCase() + ' ' + 'PACKAGE',
                   style: const TextStyle(
                       color: Colors.white,
                       fontSize: 14.88,
@@ -57,19 +56,19 @@ Widget myPlanPackages() {
                         fontFamily: "Work Sans",
                         fontWeight: FontWeight.w300)),
                 const SizedBox(height: 10),
-                Text(data['price'].toString().toUpperCase(),
-                    style: const TextStyle(
-                        color: Color(0XFFEC6543),
-                        fontSize: 26.73,
-                        fontFamily: "Work Sans",
-                        fontWeight: FontWeight.w700)),
-                const SizedBox(height: 5),
-                Text(data['price_note'].toString(),
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontFamily: "Work Sans",
-                        fontSize: 11,
-                        fontWeight: FontWeight.w400)),
+                // Text(data['price'].toString().toUpperCase(),
+                //     style: const TextStyle(
+                //         color: Color(0XFFEC6543),
+                //         fontSize: 26.73,
+                //         fontFamily: "Work Sans",
+                //         fontWeight: FontWeight.w700)),
+                // const SizedBox(height: 5),
+                // Text(data['price_note'].toString(),
+                //     style: const TextStyle(
+                //         color: Colors.white,
+                //         fontFamily: "Work Sans",
+                //         fontSize: 11,
+                //         fontWeight: FontWeight.w400)),
               ],
             ),
           ],
@@ -86,7 +85,7 @@ Widget myPlanPackages() {
             SvgPicture.asset('public/svg/chat.svg'),
             const SizedBox(
               child: Text(
-                'Access to any eight(8) E-engineering interactive Workbook',
+                'Access to any eight(8) E-engineering  Workbook',
                 style: TextStyle(
                     fontFamily: "Work Sans",
                     fontSize: 11,

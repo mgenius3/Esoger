@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 Widget packages(BuildContext context, {required List data}) {
   double width = MediaQuery.of(context).size.width;
   return SizedBox(
-    height: 250,
+    height: 270,
     child: ListView.builder(
       scrollDirection: Axis.horizontal,
       itemCount: data.length, // Number of containers you want to display

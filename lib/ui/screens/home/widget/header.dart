@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-Widget header() {
+Widget header(String username) {
   return (Container(
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -14,7 +14,7 @@ Widget header() {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                const Text('Hi Moses',
+                Text('Hi $username',
                     style: TextStyle(
                         fontFamily: "Work Sans",
                         fontSize: 20,

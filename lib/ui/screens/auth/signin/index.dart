@@ -82,13 +82,13 @@ class _SignInState extends ConsumerState<SignIn> {
 
           //save data to state
           var data = userdetails['data']['data'];
-          print(userdetails);
           var userprofile = Profile.fromJson(data);
 
           //save user profile to provider
           ref.read(profileProvider.notifier).saveProfile(userprofile);
           await _secureStorage.write(
               key: 'email', value: _emailTextController.text.trim());
+          context.go('/home');
         }
       } catch (err) {
         Fluttertoast.showToast(msg: err.toString());
@@ -190,9 +190,11 @@ class _SignInState extends ConsumerState<SignIn> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            setState(() {
-                              _showPasswordReset = true;
-                            });
+                            context.push('/forgotpassword/email');
+
+                            // setState(() {
+                            //   _showPasswordReset = true;
+                            // });
                           },
                           child: const Text(
                             "Forgot Password",

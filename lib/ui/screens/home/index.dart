@@ -1,19 +1,27 @@
+import 'package:esoger/models/product_design.dart';
 import 'package:esoger/ui/theme/colors.dart';
 import 'package:esoger/ui/widget/button/primarybutton.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import './widget/header.dart';
 import 'widget/list_packages.dart';
-import './widget/equipment_design.dart';
+import '../../widget/equipment_design.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:esoger/provider/profile.dart';
+import 'package:esoger/provider/product_design.dart';
+import 'package:esoger/services/api/api_service.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  ApiService apiService = ApiService();
+  // List<dynamic> productsDesign = [];
+
   List packages_data = [
     {
       "name": "diamond package",
@@ -35,8 +43,38 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   ];
 
+  void fetchAllProductDesign() async {
+    try {
+      Map responseData = await apiService.get("all_products");
+      if (responseData['data'] != null) {
+        // setState(() {
+        //   productsDesign = responseData['data']['data'];
+        // });
+
+        List? productDesignResponseData = responseData['data']['data'];
+
+        List<ProductDesign> productDesignData = productDesignResponseData!
+            .map((json) => ProductDesign.fromJson(json as Map<String, dynamic>))
+            .toList();
+
+        ref
+            .read(productDesignProvider.notifier)
+            .saveProductDesign(productDesignData);
+      }
+    } catch (err) {
+      print(err.toString());
+    }
+  }
+
+  void initState() {
+    fetchAllProductDesign();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final profile = ref.watch(profileProvider);
+    final productsDesign = ref.watch(productDesignProvider);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
@@ -45,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              header(),
+              header(profile!.username),
               const SizedBox(height: 40),
               Form(
                   child: Container(
@@ -92,19 +130,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: Color(0XFF3F3F40)),
                             ),
                             const SizedBox(height: 10),
-                            const Text('Diamond Plan',
+                            Text('${profile.plan} plan',
                                 style: TextStyle(
-                                  fontSize: 24,
+                                  fontSize: 20,
                                   fontFamily: "Work Sans",
                                   fontWeight: FontWeight.w700,
                                 )),
                             const SizedBox(height: 10),
-                            const Text('30 days free trial',
-                                style: TextStyle(
-                                    fontSize: 10,
-                                    fontFamily: "Work Sans",
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.redAccent)),
+                            if (profile.plan == 'diamond')
+                              const Text('30 days free trial',
+                                  style: TextStyle(
+                                      fontSize: 10,
+                                      fontFamily: "Work Sans",
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.redAccent)),
                             const SizedBox(height: 10),
                             SizedBox(
                               height: 40,
@@ -158,18 +197,29 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              design(context),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircleAvatar(radius: 4, backgroundColor: Colors.red),
-                  SizedBox(width: 4),
-                  CircleAvatar(radius: 4, backgroundColor: Colors.grey),
-                  SizedBox(width: 4),
-                  CircleAvatar(radius: 4, backgroundColor: Colors.grey),
-                ],
-              ),
+              if (productsDesign != null)
+                SizedBox(
+                  height: 700,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: productsDesign.length,
+                    itemBuilder: (context, index) {
+                      return design(context, productsDesign[index]);
+                    },
+                  ),
+                )
+              else
+                Center(child: Text("Loading...")),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     CircleAvatar(radius: 4, backgroundColor: Colors.red),
+              //     SizedBox(width: 4),
+              //     CircleAvatar(radius: 4, backgroundColor: Colors.grey),
+              //     SizedBox(width: 4),
+              //     CircleAvatar(radius: 4, backgroundColor: Colors.grey),
+              //   ],
+              // ),
             ],
           ),
         ),

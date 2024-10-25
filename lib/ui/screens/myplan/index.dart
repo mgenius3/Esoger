@@ -1,18 +1,52 @@
+import 'package:esoger/provider/profile.dart';
 import 'package:esoger/ui/widget/button/back_navigation.dart';
 import 'package:flutter/material.dart';
-import './widget/equipment_design.dart';
+// import './widget/equipment_design.dart';
+import 'package:esoger/ui/widget/equipment_design.dart';
 import './widget/packages.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:esoger/models/product_design.dart';
+import 'package:esoger/provider/product_design.dart';
 
-class MyPlan extends StatefulWidget {
+class MyPlan extends ConsumerStatefulWidget {
   const MyPlan({super.key});
 
   @override
-  State<MyPlan> createState() => _MyPlanState();
+  ConsumerState<MyPlan> createState() => _MyPlanState();
 }
 
-class _MyPlanState extends State<MyPlan> {
+class _MyPlanState extends ConsumerState<MyPlan> {
+  List<ProductDesign> filteredProducts = [];
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize filteredProducts with all products initially
+    filteredProducts = ref.read(productDesignProvider) ?? [];
+  }
+
+  void filterSearchResults(String query) {
+    final allProducts = ref.read(productDesignProvider) ?? [];
+
+    if (query.isEmpty) {
+      // Show all products if the search query is empty
+      setState(() {
+        filteredProducts = allProducts;
+      });
+    } else {
+      setState(() {
+        filteredProducts = allProducts
+            .where((product) => product.product
+                .toLowerCase()
+                .contains(query.toLowerCase())) // Match search with name
+            .toList();
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final profile = ref.read(profileProvider);
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -58,14 +92,30 @@ class _MyPlanState extends State<MyPlan> {
                 ),
               )),
               const SizedBox(height: 20),
-              myPlanPackages(),
+              myPlanPackages(profile!.plan),
               const SizedBox(height: 40),
-              GestureDetector(onTap: () {}, child: design(context)),
-              const SizedBox(height: 16),
-              GestureDetector(onTap: () {}, child: design(context)),
-              const SizedBox(height: 16),
-              GestureDetector(onTap: () {}, child: design(context)),
-              const SizedBox(height: 16),
+              ListView.builder(
+                shrinkWrap: true, // Important for scrolling
+                physics:
+                    const NeverScrollableScrollPhysics(), // Disable scrolling for the parent ScrollView
+                itemCount: filteredProducts.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          // Handle the tap action here
+                        },
+                        child: design(
+                          context,
+                          filteredProducts[index], // Use filtered products list
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                    ],
+                  );
+                },
+              ),
             ],
           ),
         ),

@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'dart:async';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:esoger/services/api/api_service.dart';
 
 class ForgotPassword extends StatefulWidget {
   final String method;
@@ -19,13 +20,8 @@ class ForgotPassword extends StatefulWidget {
 class _ForgotPasswordState extends State<ForgotPassword> {
   final _formkey = GlobalKey<FormState>();
   bool _isLoading = false;
-
-  final _1Controller = TextEditingController();
-  final _2Controller = TextEditingController();
-  final _3Controller = TextEditingController();
-  final _4Controller = TextEditingController();
-  final _5Controller = TextEditingController();
-  final _6Controller = TextEditingController();
+  final _emailTextController = TextEditingController();
+  ApiService apiService = ApiService();
 
   int focus = 1;
 
@@ -113,6 +109,33 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     }
   }
 
+  void _submit(BuildContext context) async {
+    if (validateForm()) {
+      setState(() {
+        _isLoading = true;
+      });
+      try {
+        Map<String, dynamic> userDetails = {
+          "email": _emailTextController.text.trim(),
+        };
+
+        Map responseData =
+            await apiService.post("forgot_password", userDetails);
+
+        print(responseData);
+        if (responseData["error"] == null) {
+          Fluttertoast.showToast(msg: responseData['data']['message']);
+        } else {}
+      } catch (err) {
+        print(err.toString());
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -191,93 +214,105 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                 fontSize: 14),
                           )
                         : const Text(
-                            "Don’t worry! it happens. Enter the security code we sent to benmos16@gmail.com",
+                            "Don’t worry! it happens. Enter your email address",
                             style: TextStyle(
-                                fontFamily: 'Work Sans',
+                                fontFamily: 'WorkSans',
                                 fontWeight: FontWeight.w400,
                                 fontSize: 14),
                           ),
                     const SizedBox(height: 20),
                     Form(
                         key: _formkey,
-                        child: Row(
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            codeBox(_1Controller, 0),
-                            codeBox(_2Controller, 1),
-                            codeBox(_3Controller, 2),
-                            codeBox(_4Controller, 3),
-                            codeBox(_5Controller, 4),
-                            codeBox(_6Controller, 5)
+                            TextFormField(
+                              controller: _emailTextController,
+                              decoration: const InputDecoration(
+                                labelText: 'Email address',
+                                prefixIcon: Icon(Icons.email_outlined),
+                                border: OutlineInputBorder(),
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter your email address';
+                                } else if (!RegExp(
+                                        r"^[a-zA-Z0-9.a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$")
+                                    .hasMatch(value)) {
+                                  return 'Please enter a valid email address';
+                                }
+                                return null;
+                              },
+                              onChanged: (text) => setState(() {
+                                _emailTextController.text = text;
+                              }),
+                            ),
+
+                            // codeBox(_1Controller, 0),
+                            // codeBox(_2Controller, 1),
+                            // codeBox(_3Controller, 2),
+                            // codeBox(_4Controller, 3),
+                            // codeBox(_5Controller, 4),
+                            // codeBox(_6Controller, 5)
                           ],
                         )),
                     const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            const Text(
-                              "Didn't get the code? ",
-                              style: TextStyle(fontSize: 14),
-                            ),
-                            GestureDetector(
-                              onTap: () {},
-                              child: const Text(
-                                'Resend it',
-                                style: TextStyle(color: primaryColor),
-                              ),
-                            )
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            SvgPicture.asset('public/svg/countdown.svg'),
-                            Text(
-                              _secondsRemaining.toString(),
-                              style: const TextStyle(fontSize: 14),
-                            )
-                          ],
-                        )
-                      ],
-                    )
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [
+                    //     Row(
+                    //       children: [
+                    //         const Text(
+                    //           "Didn't get the code? ",
+                    //           style: TextStyle(fontSize: 14),
+                    //         ),
+                    //         GestureDetector(
+                    //           onTap: () {},
+                    //           child: const Text(
+                    //             'Resend it',
+                    //             style: TextStyle(color: primaryColor),
+                    //           ),
+                    //         )
+                    //       ],
+                    //     ),
+                    //     Row(
+                    //       children: [
+                    //         SvgPicture.asset('public/svg/countdown.svg'),
+                    //         Text(
+                    //           _secondsRemaining.toString(),
+                    //           style: const TextStyle(fontSize: 14),
+                    //         )
+                    //       ],
+                    //     )
+                    //   ],
+                    // )
                   ],
                 ))
               ],
             ),
           ),
           const SizedBox(height: 100),
-          SizedBox(
-            child: checkIfInputFieldIsComplete
-                ? CustomPrimaryButton(
-                    onPressed: () {
-                      context.push("/createloginpassword");
-                    },
-                    color: primaryColor,
-                    child: _isLoading
-                        ? const SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                Colors.white,
-                              ),
-                            ),
-                          )
-                        : const Text(
-                            "Continue",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                  )
-                : CustomPrimaryButton(
-                    onPressed: () {},
-                    color: secondaryColor,
-                    child: const Text(
-                      "Continue",
-                      style: TextStyle(color: Colors.white),
+          CustomPrimaryButton(
+            onPressed: () {
+              // context.push("/createloginpassword");
+              _submit(context);
+            },
+            color: primaryColor,
+            child: _isLoading
+                ? const SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        Colors.white,
+                      ),
                     ),
+                  )
+                : const Text(
+                    "Continue",
+                    style: TextStyle(color: Colors.white),
                   ),
-          ),
+          )
         ]),
       ),
     );
