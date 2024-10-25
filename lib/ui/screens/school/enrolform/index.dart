@@ -245,11 +245,19 @@ class _TrainingFormPageState extends State<TrainingFormPage> {
               ),
 
               const SizedBox(height: 40),
+              // CustomPrimaryButton(
+              //   onPressed: () {
+              //     context.push('/schoolenrolmodule');
+              //   },
+              //   text: "Submit",
+              //   textcolor: Colors.white,
+              // )
+
               CustomPrimaryButton(
                 onPressed: () {
-                  context.push('/schoolenrolmodule');
+                  context.push('/payment');
                 },
-                text: "Submit",
+                text: "Make Payment",
                 textcolor: Colors.white,
               )
             ],
