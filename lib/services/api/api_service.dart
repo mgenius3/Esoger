@@ -3,9 +3,11 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'api_config.dart';
 import 'package:esoger/utils/handle_error.dart';
+import 'package:dio/dio.dart';
 
 class ApiService {
   final _storage = FlutterSecureStorage();
+  final Dio _dio = Dio();
 
   // Method to store authentication token
   Future<void> storeAuthToken(String token) async {
@@ -75,6 +77,17 @@ class ApiService {
       print(78);
       print(err.toString());
       throw CustomError('$err');
+    }
+  }
+
+  Future<Map<String, dynamic>> postFormData(
+      String endpoint, FormData data) async {
+    try {
+      final response =
+          await _dio.post(('${ApiConfig.baseURL}$endpoint'), data: data);
+      return response.data;
+    } on DioError catch (e) {
+      return {"error": e.response?.data['message'] ?? 'An error occurred'};
     }
   }
 }

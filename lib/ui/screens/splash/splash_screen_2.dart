@@ -17,6 +17,8 @@ class _Splash2State extends State<Splash2> {
   startTimer() async {
     String? user_id = await storage.read(key: 'user_id');
 
+    print(user_id);
+
     Timer(const Duration(seconds: 3), () async {
       if (user_id != null) {
         context.push('/home');

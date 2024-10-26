@@ -49,6 +49,7 @@ dependencies:
   pdf: ^3.10.1
   printing: ^5.10.4
   webview_flutter: ^4.10.0
+  dio: ^5.7.0
 
 dev_dependencies:
   flutter_test:

@@ -1,14 +1,18 @@
+import 'package:esoger/provider/product_design.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:esoger/provider/profile.dart';
 
-class UserProfileScreen extends StatefulWidget {
+class UserProfileScreen extends ConsumerStatefulWidget {
   @override
   _UserProfileScreenState createState() => _UserProfileScreenState();
 }
 
-class _UserProfileScreenState extends State<UserProfileScreen> {
+class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
   @override
   Widget build(BuildContext context) {
+    var profile = ref.read(profileProvider);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
@@ -24,7 +28,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             ),
             SizedBox(height: 10),
             Text(
-              'Jarel Samson',
+              profile!.fullName,
               style: TextStyle(
                 fontSize: 22,
                 fontFamily: "Work Sans",
@@ -32,7 +36,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               ),
             ),
             Text(
-              'jarelsamson@gmail.com',
+              profile.email,
               style: TextStyle(
                 fontSize: 14,
                 fontFamily: "Work Sans",
@@ -48,10 +52,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   // _buildProfileOption(
                   //     Icons.credit_card, "Credit Card", 'creditcard'),
 
-                  _buildProfileOption(
-                      Icons.lock_outline, "Password", "setnewpassword"),
-                  _buildProfileOption(
-                      Icons.history, "Transactions", "transactions"),
+                  // _buildProfileOption(
+                  // Icons.lock_outline, "Password", "setnewpassword"),
+                  // _buildProfileOption(
+                  // Icons.history, "Transactions", "transactions"),
                   // _buildProfileOption(Icons.notifications_outlined,
                   //     "Notifications", "notifications"),
                 ],
@@ -67,6 +71,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 ),
               ),
               onTap: () {
+                ref.read(profileProvider.notifier).clearProfile();
                 context.go("/signin");
               },
             ),
