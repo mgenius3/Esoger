@@ -1,14 +1,15 @@
+import 'package:esoger/utils/format.dart';
 import 'package:flutter/material.dart';
 import 'package:esoger/ui/widget/button/back_navigation.dart';
 import 'package:esoger/ui/widget/button/primarybutton.dart';
 import 'package:go_router/go_router.dart';
 
-class ModuleDetails1Page extends StatefulWidget {
+class ModuleDetails5Page extends StatefulWidget {
   @override
-  _ModuleDetails1PageState createState() => _ModuleDetails1PageState();
+  _ModuleDetails5PageState createState() => _ModuleDetails5PageState();
 }
 
-class _ModuleDetails1PageState extends State<ModuleDetails1Page> {
+class _ModuleDetails5PageState extends State<ModuleDetails5Page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,8 +24,12 @@ class _ModuleDetails1PageState extends State<ModuleDetails1Page> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   backNavigation(context),
-                  const Text("MODULE 1. APPRECIATIONS",
+                  Text(
+                      shortenText(
+                          "MODULE 5: PROCESS PLANT ECONOMICS AND FLOW ASSURANCE STUDIES",
+                          30),
                       style: TextStyle(
+                        fontSize: 14,
                         fontWeight: FontWeight.bold,
                         fontFamily: "Work Sans",
                       )),
@@ -42,38 +47,18 @@ class _ModuleDetails1PageState extends State<ModuleDetails1Page> {
                     fontFamily: "Work Sans"),
               ),
               const SizedBox(height: 10),
-              const Text(
-                'Introduction-Part 1',
-                style: TextStyle(
-                    fontFamily: "Work Sans",
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red),
-              ),
-              SizedBox(height: 5),
-              Text(
-                'Understand the Oil and Gas Infrastructure: Overview; Onshore and Offshore Topsides Facility; '
-                'Subsea Systems Wellhead Stations (Production Skids), Production Platforms/Flowstations, '
-                'Tank Farms and, FPSOs.',
-                style: const TextStyle(
-                  fontFamily: "Work Sans",
-                ),
-              ),
-              SizedBox(height: 15),
-              Text(
-                'Introduction-Part 2',
-                style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: "Work Sans",
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red),
-              ),
-              SizedBox(height: 5),
-              Text(
-                'What is Process Engineering; What Process Engineer(s) do. Esoger PD and EP, '
-                'BOD and SOW Development. The Process Engineer\'s tools.',
-              ),
-              SizedBox(height: 20),
+              _buildActivityItem('Alternative Analysis Engineering Studies.'),
+              _buildActivityItem(
+                  'Facility Costing and Sensitivity Analysis. Determine CAPEX, OPEX, NPV, DCFRR, ROI, and PBP.'),
+              _buildActivityItem('De-bottlenecking Studies.'),
+              _buildActivityItem('Hydrate Studies.'),
+              _buildActivityItem(
+                  'Flow Assurance Studies - Hydraulic and Sensitivity Analysis.'),
+              _buildActivityItem('Depressurization and Blowdown Studies.'),
+              _buildActivityItem(
+                  'Determine LTCS or SS length required to guard against fatigue stress in CS during Blowdown or depressurization.'),
+
+              const SizedBox(height: 20),
 
               // Objectives Section
               Text(
@@ -95,24 +80,17 @@ class _ModuleDetails1PageState extends State<ModuleDetails1Page> {
               SizedBox(height: 10),
               // Objective List
               _buildObjectiveItem(
-                  '1. List out all the mechanical units associated with onshore, offshore topsides and subsea, OPA, Gas process facility.'),
+                  '1. Conduct high level costing and sensitivity analysis to determine the best business case using economic indicators like CAPEX, OPEX, ROI, NPV, and PBP.'),
               _buildObjectiveItem(
-                  '2. Layout a sketch or PFD of these units in the order in which they should occur.'),
+                  '2. Determine hydrate formation points during gas transmission or Blowdown operations and recommend mitigation techniques.'),
               _buildObjectiveItem(
-                  '3. Identify all the responsibilities or job functions of the Process Engineer.'),
+                  '3. List conditions that favor hydrate formation under normal, offset, and pre-startup operations, and plan to mitigate hydrate formation.'),
               _buildObjectiveItem(
-                  '4. List out for any one project involvement all essential process engineering deliverables.'),
+                  '4. Conduct Flow Assurance studies on piping/pipeline networks to determine optimal pipeline sizes and ensure desired fluid direction, pressure, temperature, and flowrate using specialized flow assurance software, such as Pipephase by Esscor Simulation Sciences.'),
               _buildObjectiveItem(
-                  '5. Use global and client specific Workscope standards.'),
+                  '5. Differentiate between depressurization and Blowdown operations.'),
               _buildObjectiveItem(
-                  '6. Identify the stages of Project execution and how gaseous separations are deliverable.'),
-              _buildObjectiveItem(
-                  '7. Identify tools and resources required to execute the Project.'),
-              _buildObjectiveItem(
-                  '8. List out processes common to these deliverables in scope of work.'),
-              _buildObjectiveItem(
-                  '9. Develop the "Solution Scope of Work" (SSOW) contract document using Esoger\'s template.'),
-              _buildObjectiveItem('10. Develop design basis.'),
+                  '6. Develop macros to determine the length of LTCS/LCSS/316SS required to guard against fatigue failure in CS piping due to depressurization or Blowdown operations.'),
 
               SizedBox(height: 20),
               // Duration and Certification
@@ -126,7 +104,7 @@ class _ModuleDetails1PageState extends State<ModuleDetails1Page> {
               ),
               SizedBox(height: 10),
               Text(
-                'Certification: Esoger Certified Process Engineer',
+                'Certification: Esoger Certified Senior Level II',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -138,6 +116,17 @@ class _ModuleDetails1PageState extends State<ModuleDetails1Page> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  // Helper method to build each activity item
+  Widget _buildActivityItem(String text) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Text(
+        text,
+        style: TextStyle(fontFamily: "Work Sans"),
       ),
     );
   }

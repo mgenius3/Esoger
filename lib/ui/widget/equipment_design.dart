@@ -69,8 +69,8 @@ Widget design(BuildContext context, ProductDesign data) {
                           GestureDetector(
                             onTap: () {
                               // context.push("/calculator");
-                              openWebView(
-                                  context, data.calculator, data.product);
+                              openWebView(context, data.calculator,
+                                  data.product, bytes);
                             },
                             child: Container(
                               padding: const EdgeInsets.all(2),

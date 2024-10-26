@@ -1,14 +1,15 @@
+import 'package:esoger/utils/format.dart';
 import 'package:flutter/material.dart';
 import 'package:esoger/ui/widget/button/back_navigation.dart';
 import 'package:esoger/ui/widget/button/primarybutton.dart';
 import 'package:go_router/go_router.dart';
 
-class ModuleDetails1Page extends StatefulWidget {
+class ModuleDetails3Page extends StatefulWidget {
   @override
-  _ModuleDetails1PageState createState() => _ModuleDetails1PageState();
+  _ModuleDetails3PageState createState() => _ModuleDetails3PageState();
 }
 
-class _ModuleDetails1PageState extends State<ModuleDetails1Page> {
+class _ModuleDetails3PageState extends State<ModuleDetails3Page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +24,10 @@ class _ModuleDetails1PageState extends State<ModuleDetails1Page> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   backNavigation(context),
-                  const Text("MODULE 1. APPRECIATIONS",
+                  Text(
+                      shortenText(
+                          "MODULE 3: PROCESS PLANT DETAILED PROJECT AND MODELING",
+                          30),
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontFamily: "Work Sans",
@@ -42,38 +46,13 @@ class _ModuleDetails1PageState extends State<ModuleDetails1Page> {
                     fontFamily: "Work Sans"),
               ),
               const SizedBox(height: 10),
-              const Text(
-                'Introduction-Part 1',
-                style: TextStyle(
-                    fontFamily: "Work Sans",
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red),
-              ),
-              SizedBox(height: 5),
-              Text(
-                'Understand the Oil and Gas Infrastructure: Overview; Onshore and Offshore Topsides Facility; '
-                'Subsea Systems Wellhead Stations (Production Skids), Production Platforms/Flowstations, '
-                'Tank Farms and, FPSOs.',
-                style: const TextStyle(
-                  fontFamily: "Work Sans",
-                ),
-              ),
-              SizedBox(height: 15),
-              Text(
-                'Introduction-Part 2',
-                style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: "Work Sans",
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red),
-              ),
-              SizedBox(height: 5),
-              Text(
-                'What is Process Engineering; What Process Engineer(s) do. Esoger PD and EP, '
-                'BOD and SOW Development. The Process Engineer\'s tools.',
-              ),
-              SizedBox(height: 20),
+              _buildActivityItem(
+                  'Piping Material Selection and Plant Drawings Development'),
+              _buildActivityItem(
+                  'Piping Material Classification, New and Existing Drawing Development.'),
+              _buildActivityItem('PFD, P&ID, PSFS, UFD, and U&ID.'),
+
+              const SizedBox(height: 20),
 
               // Objectives Section
               Text(
@@ -95,24 +74,25 @@ class _ModuleDetails1PageState extends State<ModuleDetails1Page> {
               SizedBox(height: 10),
               // Objective List
               _buildObjectiveItem(
-                  '1. List out all the mechanical units associated with onshore, offshore topsides and subsea, OPA, Gas process facility.'),
+                  '1. Set up and execute steady-state and dynamic models using Aspenhysys and Provision II simulation software.'),
               _buildObjectiveItem(
-                  '2. Layout a sketch or PFD of these units in the order in which they should occur.'),
+                  '2. Understand selection criteria for “Production Separators” as vertical or horizontal, and as two- or three-phase service in operation.'),
               _buildObjectiveItem(
-                  '3. Identify all the responsibilities or job functions of the Process Engineer.'),
+                  '3. Select and sequence process equipment for oil, produced water, and gas effluents.'),
               _buildObjectiveItem(
-                  '4. List out for any one project involvement all essential process engineering deliverables.'),
+                  '4. Identify refrigeration systems suited for Sales Gas, NGL, and LPG processes.'),
               _buildObjectiveItem(
-                  '5. Use global and client specific Workscope standards.'),
+                  '5. Understand Acid Gas Treatment for CO2 and H2S removal to achieve high-quality Sweet Gas.'),
               _buildObjectiveItem(
-                  '6. Identify the stages of Project execution and how gaseous separations are deliverable.'),
+                  '6. Determine heat, material, and energy balances for various process systems.'),
               _buildObjectiveItem(
-                  '7. Identify tools and resources required to execute the Project.'),
+                  '7. Develop PFDs and P&IDs for Oil and Gas Production Facilities, focusing on Sales Gas Production.'),
               _buildObjectiveItem(
-                  '8. List out processes common to these deliverables in scope of work.'),
+                  '8. Understand Piping Material Selection based on fluid composition and thermal conditions.'),
               _buildObjectiveItem(
-                  '9. Develop the "Solution Scope of Work" (SSOW) contract document using Esoger\'s template.'),
-              _buildObjectiveItem('10. Develop design basis.'),
+                  '9. Set up instruments and process control loops on piping and mechanical units.'),
+              _buildObjectiveItem(
+                  '10. Develop Safe Charts or query deliverables using API RP 14C.'),
 
               SizedBox(height: 20),
               // Duration and Certification
@@ -126,7 +106,7 @@ class _ModuleDetails1PageState extends State<ModuleDetails1Page> {
               ),
               SizedBox(height: 10),
               Text(
-                'Certification: Esoger Certified Process Engineer',
+                'Certification: Esoger Certified Senior Level 1',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -138,6 +118,17 @@ class _ModuleDetails1PageState extends State<ModuleDetails1Page> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  // Helper method to build each activity item
+  Widget _buildActivityItem(String text) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Text(
+        text,
+        style: TextStyle(fontFamily: "Work Sans"),
       ),
     );
   }

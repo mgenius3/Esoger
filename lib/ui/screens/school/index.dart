@@ -23,28 +23,54 @@ class SchoolScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 16),
-              ModuleCard(
-                icon: Icons.app_registration,
-                title: 'Module 1 - Appreciation',
+
+              GestureDetector(
+                  onTap: () {
+                    context.push('/schoolenrolmodule');
+                  },
+                  child: ModuleCard(
+                    icon: Icons.app_registration,
+                    title: 'Module 1 - Appreciation',
+                  )),
+
+              GestureDetector(
+                onTap: () {
+                  context.push('/schoolenrolmodule2');
+                },
+                child: ModuleCard(
+                  icon: Icons.build,
+                  title:
+                      'Module 2 - Sizing Process Mechanical Units, Pipings and Pipelines using MS Excel',
+                ),
               ),
-              ModuleCard(
-                icon: Icons.build,
-                title:
-                    'Module 2 - Sizing Process Mechanical Units, Pipings and Pipelines using MS Excel',
+              GestureDetector(
+                onTap: () {
+                  context.push('/schoolenrolmodule3');
+                },
+                child: ModuleCard(
+                  icon: Icons.assignment,
+                  title:
+                      'Module 3 - Part A: Process Plant Detailed Project Studies and Modeling',
+                ),
               ),
-              ModuleCard(
-                icon: Icons.assignment,
-                title:
-                    'Module 3 - Part A: Process Plant Detailed Project Studies and Modeling',
+              GestureDetector(
+                onTap: () {
+                  context.push('/schoolenrolmodule4');
+                },
+                child: ModuleCard(
+                  icon: Icons.security,
+                  title: 'Module 4 - Instrumentation & Technical Safety',
+                ),
               ),
-              ModuleCard(
-                icon: Icons.security,
-                title: 'Module 4 - Instrumentation & Technical Safety',
-              ),
-              ModuleCard(
-                icon: Icons.eco,
-                title:
-                    'PRE-750 - Module 5 - Process Plant Economics and Flow Assurance Studies',
+              GestureDetector(
+                onTap: () {
+                  context.push('/schoolenrolmodule5');
+                },
+                child: ModuleCard(
+                  icon: Icons.eco,
+                  title:
+                      'PRE-750 - Module 5 - Process Plant Economics and Flow Assurance Studies',
+                ),
               ),
               // SizedBox(height: 16),
               // const Center(

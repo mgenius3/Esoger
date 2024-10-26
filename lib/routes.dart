@@ -26,7 +26,11 @@ import 'package:esoger/ui/screens/home/calculator/form.dart';
 
 //school
 import 'package:esoger/ui/screens/school/enrolform/index.dart';
-import 'package:esoger/ui/screens/school/enrolform/module.dart';
+import 'package:esoger/ui/screens/school/module/module1.dart';
+import 'package:esoger/ui/screens/school/module/module2.dart';
+import 'package:esoger/ui/screens/school/module/module3.dart';
+import 'package:esoger/ui/screens/school/module/module4.dart';
+import 'package:esoger/ui/screens/school/module/module5.dart';
 
 //payment
 import 'package:esoger/ui/screens/payment/index.dart';
@@ -162,10 +166,38 @@ GoRouter createRouter() {
               return TrainingFormPage();
             },
           ),
+
           GoRoute(
             path: 'schoolenrolmodule',
             builder: (BuildContext context, GoRouterState state) {
-              return ModuleDetailsPage();
+              return ModuleDetails1Page();
+            },
+          ),
+          GoRoute(
+            path: 'schoolenrolmodule2',
+            builder: (BuildContext context, GoRouterState state) {
+              return ModuleDetails2Page();
+            },
+          ),
+
+          GoRoute(
+            path: 'schoolenrolmodule3',
+            builder: (BuildContext context, GoRouterState state) {
+              return ModuleDetails3Page();
+            },
+          ),
+
+          GoRoute(
+            path: 'schoolenrolmodule4',
+            builder: (BuildContext context, GoRouterState state) {
+              return ModuleDetails4Page();
+            },
+          ),
+
+          GoRoute(
+            path: 'schoolenrolmodule5',
+            builder: (BuildContext context, GoRouterState state) {
+              return ModuleDetails5Page();
             },
           ),
 
