@@ -45,7 +45,6 @@ class _AboutMePageState extends ConsumerState<AboutMePage> {
 
   void _submit() async {
     var profile = ref.watch(profileProvider);
-
     // Check if profile picture is selected
     if (_profileImage == null) {
       Fluttertoast.showToast(msg: "Please select a profile picture.");

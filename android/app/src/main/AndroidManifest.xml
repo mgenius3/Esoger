@@ -2,7 +2,7 @@
     package="com.example.esoger">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="esoger"
+        android:label="Esoger"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -32,10 +32,11 @@ void openWebView(BuildContext context, String url, String name, dynamic bytes) {
                 ],
               ),
               const SizedBox(height: 20),
-              SizedBox(
-                // width: 200,
-                child: Image.memory(bytes),
-              ),
+              if (bytes != null)
+                SizedBox(
+                  // width: 200,
+                  child: Image.memory(bytes),
+                ),
               const SizedBox(height: 20),
               Expanded(
                 child: WebViewWidget(controller: controller),

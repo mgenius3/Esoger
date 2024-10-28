@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 Widget packages(BuildContext context, {required List data}) {
   double width = MediaQuery.of(context).size.width;
@@ -70,6 +71,9 @@ Widget packages(BuildContext context, {required List data}) {
                                   fontWeight: FontWeight.w400)),
                           const SizedBox(height: 10),
                           GestureDetector(
+                            onTap: () {
+                              context.push("/upgrade");
+                            },
                             child: Container(
                                 width: width * 0.45,
                                 padding: const EdgeInsets.all(20),

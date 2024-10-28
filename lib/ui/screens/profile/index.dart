@@ -1,5 +1,6 @@
 import 'package:esoger/provider/product_design.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:esoger/provider/profile.dart';
@@ -10,6 +11,8 @@ class UserProfileScreen extends ConsumerStatefulWidget {
 }
 
 class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
+  final storage = FlutterSecureStorage();
+
   @override
   Widget build(BuildContext context) {
     var profile = ref.read(profileProvider);
@@ -70,8 +73,10 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                   fontFamily: "Work Sans",
                 ),
               ),
-              onTap: () {
+              onTap: () async {
                 ref.read(profileProvider.notifier).clearProfile();
+                await storage.delete(key: 'user_id');
+
                 context.go("/signin");
               },
             ),
