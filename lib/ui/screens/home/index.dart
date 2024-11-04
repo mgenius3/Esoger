@@ -199,12 +199,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
               if (productsDesign != null)
                 SizedBox(
-                  height: 700,
+                  height: 800,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: productsDesign.length,
                     itemBuilder: (context, index) {
-                      return design(context, productsDesign[index]);
+                      // if ((profile.plan == 'diamond' && index >= 3) ||
+                      //     (profile.plan == 'gold' && index >= 5)) {
+                      //   // Restrict visibility based on the user's plan
+                      //   return const SizedBox.shrink();
+                      // } else {
+                      return design(context, productsDesign[index],
+                          plan: profile!.plan, index: index);
+                      // }
                     },
                   ),
                 )

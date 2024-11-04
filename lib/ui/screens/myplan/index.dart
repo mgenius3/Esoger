@@ -107,9 +107,11 @@ class _MyPlanState extends ConsumerState<MyPlan> {
                           // Handle the tap action here
                         },
                         child: design(
-                          context,
-                          filteredProducts[index], // Use filtered products list
-                        ),
+                            context,
+                            filteredProducts[
+                                index], // Use filtered products list
+                            plan: profile!.plan,
+                            index: index),
                       ),
                       const SizedBox(height: 16),
                     ],

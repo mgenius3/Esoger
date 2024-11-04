@@ -6,6 +6,7 @@ import '../../widget/equipment_design.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:esoger/provider/product_design.dart';
 import 'package:esoger/ui/widget/equipment_design.dart';
+import 'package:esoger/provider/profile.dart';
 
 class AllEngineeringDesign extends ConsumerStatefulWidget {
   AllEngineeringDesign({super.key});
@@ -46,6 +47,7 @@ class _AllEngineeringDesignState extends ConsumerState<AllEngineeringDesign> {
 
   @override
   Widget build(BuildContext context) {
+    final profile = ref.watch(profileProvider);
     final productsDesign = ref.watch(productDesignProvider);
 
     return Scaffold(
@@ -111,9 +113,11 @@ class _AllEngineeringDesignState extends ConsumerState<AllEngineeringDesign> {
                           // Handle the tap action here
                         },
                         child: design(
-                          context,
-                          filteredProducts[index], // Use filtered products list
-                        ),
+                            context,
+                            filteredProducts[
+                                index], // Use filtered products list
+                            plan: profile!.plan,
+                            index: index),
                       ),
                       const SizedBox(height: 16),
                     ],
