@@ -13,13 +13,13 @@ class UpgradePlan extends ConsumerStatefulWidget {
 
 class _UpgradePlanState extends ConsumerState<UpgradePlan> {
   List packages_data = [
-    {
-      "name": "diamond package",
-      "note": "start deal",
-      "price": "free",
-      "price_note": "For the first month",
-      'no': 1
-    },
+    // {
+    //   "name": "diamond package",
+    //   "note": "start deal",
+    //   "price": "free",
+    //   "price_note": "For the first month",
+    //   'no': 1
+    // },
     {
       "name": "gold package",
       "note": "best deal",

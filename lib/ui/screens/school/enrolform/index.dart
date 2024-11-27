@@ -385,7 +385,6 @@ class _TrainingFormPageState extends State<TrainingFormPage> {
       // Assuming you have an apiService defined in your widget
       Map responseData =
           await apiService.post("training/register", trainingDetails);
-      print(responseData);
 
       if (responseData["error"] != null) {
         Fluttertoast.showToast(msg: '${responseData['error']}');

@@ -138,7 +138,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 )),
                             const SizedBox(height: 10),
                             if (profile.plan == 'diamond')
-                              const Text('30 days free trial',
+                              const Text('30 days trial',
                                   style: TextStyle(
                                       fontSize: 10,
                                       fontFamily: "Work Sans",
