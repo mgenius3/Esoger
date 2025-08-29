@@ -2,7 +2,7 @@
     package="com.en.esoger">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="Esoger"
+        android:label="EsoProces"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
