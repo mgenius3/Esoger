@@ -9,7 +9,9 @@ import 'package:esoger/ui/widget/equipment_design.dart';
 import 'package:esoger/provider/profile.dart';
 
 class AllEngineeringDesign extends ConsumerStatefulWidget {
-  AllEngineeringDesign({super.key});
+  final String? planFilter;
+
+  const AllEngineeringDesign({super.key, this.planFilter});
 
   @override
   ConsumerState<AllEngineeringDesign> createState() =>
@@ -18,28 +20,40 @@ class AllEngineeringDesign extends ConsumerStatefulWidget {
 
 class _AllEngineeringDesignState extends ConsumerState<AllEngineeringDesign> {
   List<ProductDesign> filteredProducts = [];
+  late List<ProductDesign> planBasedProducts;
 
   @override
   void initState() {
     super.initState();
-    // Initialize filteredProducts with all products initially
-    filteredProducts = ref.read(productDesignProvider) ?? [];
+    // Initialize with plan-based filtering
+    _initializeProducts();
+  }
+
+  void _initializeProducts() {
+    final allProducts = ref.read(productDesignProvider) ?? [];
+
+    // Filter based on plan
+    if (widget.planFilter == 'diamond') {
+      planBasedProducts = allProducts.take(9).toList();
+    } else if (widget.planFilter == 'gold') {
+      planBasedProducts = allProducts.take(12).toList();
+    } else {
+      planBasedProducts = allProducts;
+    }
+
+    filteredProducts = planBasedProducts;
   }
 
   void filterSearchResults(String query) {
-    final allProducts = ref.read(productDesignProvider) ?? [];
-
     if (query.isEmpty) {
-      // Show all products if the search query is empty
       setState(() {
-        filteredProducts = allProducts;
+        filteredProducts = planBasedProducts;
       });
     } else {
       setState(() {
-        filteredProducts = allProducts
-            .where((product) => product.product
-                .toLowerCase()
-                .contains(query.toLowerCase())) // Match search with name
+        filteredProducts = planBasedProducts
+            .where((product) =>
+                product.product.toLowerCase().contains(query.toLowerCase()))
             .toList();
       });
     }
@@ -50,80 +64,150 @@ class _AllEngineeringDesignState extends ConsumerState<AllEngineeringDesign> {
     final profile = ref.watch(profileProvider);
     final productsDesign = ref.watch(productDesignProvider);
 
+    // Re-initialize if products change
+    if (productsDesign != null && planBasedProducts.isEmpty) {
+      _initializeProducts();
+    }
+
     return Scaffold(
+      backgroundColor: const Color(0xFFF8F9FA),
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+                  const SizedBox(height: 10),
+
+              // Header Section
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   backNavigation(context),
-                  const Text(
-                    "Equipment Design",
+                  Text(
+                    "${widget.planFilter?.toUpperCase() ?? "All"} Workbooks",
                     style: TextStyle(
                       fontFamily: "Work Sans",
                       fontWeight: FontWeight.w600,
-                      color: Color(0XFF2C2C2C),
-                      fontSize: 20,
+                      color: Color.fromARGB(255, 204, 127, 127),
+                      fontSize: 22,
+                      letterSpacing: 0.5,
                     ),
                   ),
-                  const SizedBox(),
+                  const SizedBox(width: 40),
                 ],
               ),
-              const SizedBox(height: 20),
-              Form(
-                child: SizedBox(
-                  height: 40,
-                  child: Material(
-                    elevation: 12.0,
-                    borderRadius: BorderRadius.circular(8),
-                    shadowColor: Colors.black.withOpacity(0.75),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Search Now',
-                        prefixIcon: const Icon(Icons.search),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(14),
-                          borderSide: BorderSide.none,
-                        ),
-                      ),
-                      onChanged: (text) {
-                        filterSearchResults(
-                            text); // Filter based on search text
-                      },
+              const SizedBox(height: 24),
+
+              // Search Bar
+              Container(
+                height: 48,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.08),
+                      blurRadius: 16,
+                      offset: const Offset(0, 4),
                     ),
+                  ],
+                ),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Search designs...',
+                    labelStyle: TextStyle(
+                      fontFamily: "Work Sans",
+                      fontSize: 14,
+                      color: Colors.grey[600],
+                    ),
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Colors.grey[600],
+                      size: 22,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide.none,
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                  ),
+                  onChanged: (text) {
+                    filterSearchResults(text);
+                  },
+                ),
+              ),
+
+              const SizedBox(height: 16),
+
+              // Results Count
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Text(
+                  '${filteredProducts.length} ${filteredProducts.length == 1 ? 'Design' : 'Designs'} Available',
+                  style: TextStyle(
+                    fontFamily: "Work Sans",
+                    fontSize: 14,
+                    color: Colors.grey[600],
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
-              const SizedBox(height: 40),
-              // Using ListView.builder for better performance
-              ListView.builder(
-                shrinkWrap: true, // Important for scrolling
-                physics:
-                    const NeverScrollableScrollPhysics(), // Disable scrolling for the parent ScrollView
-                itemCount: filteredProducts.length,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          // Handle the tap action here
-                        },
-                        child: design(
-                            context,
-                            filteredProducts[
-                                index], // Use filtered products list
-                            plan: profile!.plan,
-                            index: index),
+
+              const SizedBox(height: 8),
+
+              // Products List
+              filteredProducts.isEmpty
+                  ? Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(32.0),
+                        child: Column(
+                          children: [
+                            Icon(
+                              Icons.search_off,
+                              size: 64,
+                              color: Colors.grey[400],
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              'No designs found',
+                              style: TextStyle(
+                                fontFamily: "Work Sans",
+                                fontSize: 16,
+                                color: Colors.grey[600],
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      const SizedBox(height: 16),
-                    ],
-                  );
-                },
-              ),
+                    )
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: filteredProducts.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: GestureDetector(
+                            onTap: () {
+                              // Handle the tap action here
+                            },
+                            child: design(
+                              context,
+                              filteredProducts[index],
+                              plan: profile!.plan,
+                              index: index,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
             ],
           ),
         ),

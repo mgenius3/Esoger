@@ -1,7 +1,4 @@
-import 'package:esoger/ui/theme/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 
 Widget design(BuildContext context) {
   double width = MediaQuery.of(context).size.width;

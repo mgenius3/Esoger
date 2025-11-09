@@ -149,7 +149,10 @@ GoRouter createRouter() {
           GoRoute(
             path: 'all_design',
             builder: (BuildContext context, GoRouterState state) {
-              return AllEngineeringDesign();
+              final extras = state.extra as Map<String, dynamic>?;
+    final planFilter = extras?['planFilter'] as String?;
+    return AllEngineeringDesign(planFilter: planFilter);
+
             },
           ),
           GoRoute(

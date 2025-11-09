@@ -54,10 +54,11 @@ class _MyPlanState extends ConsumerState<MyPlan> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 10),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  backNavigation(context),
+                  // backNavigation(context),
                   const Text(
                     "My Plan",
                     style: TextStyle(
@@ -66,31 +67,74 @@ class _MyPlanState extends ConsumerState<MyPlan> {
                         color: Color(0XFF2C2C2C),
                         fontSize: 20),
                   ),
-                  const SizedBox()
+                  // const SizedBox()
                 ],
               ),
               const SizedBox(height: 20),
-              Form(
-                  child: Container(
-                height: 40,
-                child: Material(
-                  elevation: 12.0,
-                  borderRadius: BorderRadius.circular(8),
-                  shadowColor: Colors.black.withOpacity(0.75),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Search Now',
-                      prefixIcon: const Icon(Icons.search),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(14),
-                          borderSide: BorderSide.none),
+              // Form(
+              //     child: Container(
+              //   height: 40,
+              //   child: Material(
+              //     elevation: 12.0,
+              //     borderRadius: BorderRadius.circular(8),
+              //     shadowColor: Colors.black.withOpacity(0.75),
+              //     child: TextFormField(
+              //       decoration: InputDecoration(
+              //         labelText: 'Search Now',
+              //         prefixIcon: const Icon(Icons.search),
+              //         border: OutlineInputBorder(
+              //             borderRadius: BorderRadius.circular(14),
+              //             borderSide: BorderSide.none),
+              //       ),
+              //       onChanged: (text) => setState(() {
+              //         // _emailTextController.text = text;
+              //       }),
+              //     ),
+              //   ),
+              // )),
+
+              Container(
+                height: 48,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.08),
+                      blurRadius: 16,
+                      offset: const Offset(0, 4),
                     ),
-                    onChanged: (text) => setState(() {
-                      // _emailTextController.text = text;
-                    }),
-                  ),
+                  ],
                 ),
-              )),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Search designs...',
+                    labelStyle: TextStyle(
+                      fontFamily: "Work Sans",
+                      fontSize: 14,
+                      color: Colors.grey[600],
+                    ),
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Colors.grey[600],
+                      size: 22,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide.none,
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                  ),
+                  onChanged: (text) {
+                    filterSearchResults(text);
+                  },
+                ),
+              ),
               const SizedBox(height: 20),
               myPlanPackages(profile!.plan),
               const SizedBox(height: 40),

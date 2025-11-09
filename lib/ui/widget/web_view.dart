@@ -1,5 +1,6 @@
 import 'package:esoger/ui/widget/button/back_navigation.dart';
 import 'package:esoger/ui/widget/equipment_design.dart';
+import 'package:esoger/ui/widget/zoom_image.dart';
 import 'package:esoger/utils/format.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,10 @@ void openWebView(BuildContext context, String url, String name, dynamic bytes) {
                   const SizedBox(width: 20),
                   Text(
                     shortenText(name, 30),
-                    style: const TextStyle(fontFamily: "Work Sans"),
+                    style: TextStyle(
+                        fontFamily: "Work Sans",
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
                   ),
                 ],
               ),
@@ -35,7 +39,7 @@ void openWebView(BuildContext context, String url, String name, dynamic bytes) {
               if (bytes != null)
                 SizedBox(
                   // width: 200,
-                  child: Image.memory(bytes),
+                  child: tapToZoomImage(context, bytes),
                 ),
               const SizedBox(height: 20),
               Expanded(

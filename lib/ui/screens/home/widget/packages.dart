@@ -8,72 +8,6 @@ Widget packagesToUpgrade(BuildContext context, Map data, Profile profile) {
   double width = MediaQuery.of(context).size.width;
   ApiService apiService = ApiService();
 
-  void sendPaymentDataToAPI(String paymentMethod, Map price) {
-    if (paymentMethod == 'paystack') {
-      openWebView(
-          context,
-          'https://esoger.com/api/process_payment_pays?amount=${price[paymentMethod]}&email=${profile.email}',
-          'upgrade to ${data['name']}',
-          null);
-    } else {
-      openWebView(
-          context,
-          'https://esoger.com/api/process_payment_flwv?amount=${price[paymentMethod]}&email=${profile.email}',
-          'upgrade to ${data['name']}',
-          null);
-    }
-  }
-
-  void _showPaymentOptions(Map price) {
-    showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (BuildContext context) {
-        return Container(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                'Choose Payment Method',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 20),
-              ListTile(
-                leading: SvgPicture.asset(
-                  'public/svg/paystack_icon.svg',
-                  width: 100,
-                ), // Replace with actual asset path
-                title: const Text('payment'),
-                onTap: () {
-                  Navigator.pop(context);
-                  sendPaymentDataToAPI('paystack', price);
-                },
-              ),
-              const Divider(),
-              ListTile(
-                leading: SvgPicture.asset(
-                  'public/svg/flutterwave_icon.svg',
-                  width: 100,
-                ), // Replace with actual asset path
-                title: const Text('payment'),
-                onTap: () {
-                  Navigator.pop(context);
-                  sendPaymentDataToAPI('flutterwave', price);
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
   return Container(
     width: width * 0.9,
     margin: const EdgeInsets.only(
@@ -167,7 +101,8 @@ Widget packagesToUpgrade(BuildContext context, Map data, Profile profile) {
         ),
         const SizedBox(height: 20),
         GestureDetector(
-          onTap: () => _showPaymentOptions(data['price_breakdown']),
+          onTap: () => showPaymentOptions(
+              context, data, profile, data['price_breakdown']),
           child: Container(
               padding: const EdgeInsets.all(20),
               margin: const EdgeInsets.symmetric(vertical: 10),
@@ -187,4 +122,73 @@ Widget packagesToUpgrade(BuildContext context, Map data, Profile profile) {
       ],
     ),
   );
+}
+
+void showPaymentOptions(
+    BuildContext context, Map data, Profile profile, price) {
+  showModalBottomSheet(
+    context: context,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    ),
+    builder: (BuildContext context) {
+      return Container(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+              'Choose Payment Method',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 20),
+            ListTile(
+              leading: SvgPicture.asset(
+                'public/svg/paystack_icon.svg',
+                width: 100,
+              ), // Replace with actual asset path
+              title: const Text('payment'),
+              onTap: () {
+                Navigator.pop(context);
+                sendPaymentDataToAPI(context, data, profile, 'paystack', price);
+              },
+            ),
+            const Divider(),
+            ListTile(
+              leading: SvgPicture.asset(
+                'public/svg/flutterwave_icon.svg',
+                width: 100,
+              ), // Replace with actual asset path
+              title: const Text('payment'),
+              onTap: () {
+                Navigator.pop(context);
+                sendPaymentDataToAPI(
+                    context, data, profile, 'flutterwave', price);
+              },
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+void sendPaymentDataToAPI(BuildContext context, Map data, Profile profile,
+    String paymentMethod, Map price) {
+  if (paymentMethod == 'paystack') {
+    openWebView(
+        context,
+        'https://esoger.com/api/process_payment_pays?amount=${price[paymentMethod]}&email=${profile.email}',
+        'upgrade to ${data['name']}',
+        null);
+  } else {
+    openWebView(
+        context,
+        'https://esoger.com/api/process_payment_flwv?amount=${price[paymentMethod]}&email=${profile.email}',
+        'upgrade to ${data['name']}',
+        null);
+  }
 }

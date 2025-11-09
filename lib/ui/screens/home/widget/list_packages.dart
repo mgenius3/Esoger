@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 Widget packages(BuildContext context, {required List data}) {
+  print(data);
   double width = MediaQuery.of(context).size.width;
   return SizedBox(
     height: 270,
@@ -72,7 +73,23 @@ Widget packages(BuildContext context, {required List data}) {
                           const SizedBox(height: 10),
                           GestureDetector(
                             onTap: () {
-                              context.push("/upgrade");
+                              if (data[index]['name'] == "diamond package") {
+                                context.push('/all_design',
+                                    extra: {'planFilter': 'diamond'});
+                              } else if (data[index]['name'] ==
+                                  "gold package") {
+                                // Pass 'gold' for first 12 products
+                                context.push('/all_design',
+                                    extra: {'planFilter': 'gold'});
+                              } else if (data[index]['name'] ==
+                                  "platinum package") {
+                                context.push('/all_design',
+                                    extra: {'planFilter': "platinum"});
+                              } else {
+                                // Pass null for all products
+                                context.push('/all_design',
+                                    extra: {'planFilter': null});
+                              }
                             },
                             child: Container(
                                 width: width * 0.45,
@@ -97,8 +114,8 @@ Widget packages(BuildContext context, {required List data}) {
                               SvgPicture.asset('public/svg/chat.svg'),
                               SizedBox(
                                 width: width * 0.45,
-                                child: const Text(
-                                  'Access to any eight(8) E-engineering interactive Workbook',
+                                child: Text(
+                                  'Access to any eight(${data[index]['no_of_workbook']}) E-engineering interactive Workbook',
                                   style: TextStyle(
                                       fontFamily: "Work Sans",
                                       fontSize: 11,
