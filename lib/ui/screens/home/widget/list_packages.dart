@@ -99,7 +99,7 @@ Widget packages(BuildContext context, {required List data}) {
                                     borderRadius: BorderRadius.circular(2.56)),
                                 child: const Center(
                                   child: Text(
-                                    "GET STARTED",
+                                    "Explore Workbooks",
                                     style: TextStyle(
                                         fontFamily: "Work Sans",
                                         color: Colors.white),

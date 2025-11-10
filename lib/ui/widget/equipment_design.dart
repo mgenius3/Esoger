@@ -78,8 +78,8 @@ Widget design(BuildContext context, ProductDesign data,
                           ),
                           GestureDetector(
                             onTap: () {
-                              if ((plan == 'diamond' && index >= 3) ||
-                                  (plan == 'gold' && index >= 5)) {
+                              if ((plan == 'diamond' && index >= 9) ||
+                                  (plan == 'gold' && index >= 12)) {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
