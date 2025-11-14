@@ -31,5 +31,8 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+         <property
+            android:name="android.supportsFlexiblePageSizes"
+            android:value="true" />
     </application>
 </manifest>

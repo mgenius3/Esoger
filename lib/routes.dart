@@ -1,3 +1,4 @@
+import 'package:esoger/ui/screens/profile/privacy_policies.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -150,9 +151,8 @@ GoRouter createRouter() {
             path: 'all_design',
             builder: (BuildContext context, GoRouterState state) {
               final extras = state.extra as Map<String, dynamic>?;
-    final planFilter = extras?['planFilter'] as String?;
-    return AllEngineeringDesign(planFilter: planFilter);
-
+              final planFilter = extras?['planFilter'] as String?;
+              return AllEngineeringDesign(planFilter: planFilter);
             },
           ),
           GoRoute(
@@ -228,6 +228,12 @@ GoRouter createRouter() {
             path: 'aboutme',
             builder: (BuildContext context, GoRouterState state) {
               return AboutMePage();
+            },
+          ),
+          GoRoute(
+            path: 'privacy',
+            builder: (BuildContext context, GoRouterState state) {
+              return PrivacyPolicyScreen();
             },
           ),
           GoRoute(

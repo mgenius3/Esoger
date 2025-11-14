@@ -29,7 +29,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       "note": "start deal",
       "price": "free",
       "price_note": "For All Time",
-      "no_of_workbook": 9
+      "no_of_workbook": 9,
+      "no_of_workbook_in_alpha": "nine"
     },
     {
       "name": "gold package",
@@ -37,7 +38,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       "price": "\$5",
       "price_breakdown": {"paystack": 8000, "flutterwave": 5},
       "price_note": "Per month",
-      "no_of_workbook": 12
+      "no_of_workbook": 12,
+      "no_of_workbook_in_alpha": "twelve"
+
     },
     {
       "name": "platinum package",
@@ -45,7 +48,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       "price": "\$15",
       "price_breakdown": {"paystack": 24000, "flutterwave": 15},
       "price_note": "Per month",
-      "no_of_workbook": 17
+      "no_of_workbook": 17,
+      "no_of_workbook_in_alpha": "seventeen"
+
     }
   ];
 

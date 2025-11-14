@@ -9,7 +9,7 @@ android {
     namespace = "com.en.esoger"
        compileSdk = 35
 
-    ndkVersion = "29.0.142606865"
+    ndkVersion = flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -18,13 +18,6 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8
-    }
-
-    // ADD THIS PACKAGING BLOCK
-    packaging {
-        jniLibs {
-            useLegacyPackaging = false
-        }
     }
 
     defaultConfig {
@@ -36,13 +29,6 @@ android {
         targetSdk = 35
         versionCode = flutter.versionCode
         versionName = flutter.versionName
-        externalNativeBuild {
-      // For ndk-build, instead use the ndkBuild block.
-            cmake {
-                // Passes optional arguments to CMake.
-                arguments "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
-            }
-    }
     }
 
     signingConfigs {

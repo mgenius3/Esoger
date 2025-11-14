@@ -52,6 +52,8 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                 children: [
                   _buildProfileOption(
                       Icons.person_outline, "About me", 'aboutme'),
+                      _buildProfileOption(
+                      Icons.privacy_tip, "Privacy & Policy", 'privacy'),
                   // _buildProfileOption(
                   //     Icons.credit_card, "Credit Card", 'creditcard'),
 
